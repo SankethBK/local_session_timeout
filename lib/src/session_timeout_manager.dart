@@ -43,7 +43,7 @@ class _SessionTimeoutManagerState extends State<SessionTimeoutManager>
         state == AppLifecycleState.paused) {
       if (widget._sessionConfig.invalidateSessionForAppLostFocus != null) {
         _appLostFocusTimer ??= _setTimeout(
-          () => widget._sessionConfig.pushSessionInvalidEvent(),
+          () => widget._sessionConfig.pushAppFocusTimeout(),
           duration: widget._sessionConfig.invalidateSessionForAppLostFocus!,
         );
       }
@@ -64,7 +64,7 @@ class _SessionTimeoutManagerState extends State<SessionTimeoutManager>
           if (_userTapActivityRecordEnabled) {
             _userInactivityTimer?.cancel();
             _userInactivityTimer = _setTimeout(
-              () => widget._sessionConfig.pushSessionInvalidEvent(),
+              () => widget._sessionConfig.pushUserInactivityTimeout(),
               duration:
                   widget._sessionConfig.invalidateSessionForUserInactiviity!,
             );
