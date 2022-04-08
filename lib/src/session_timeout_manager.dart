@@ -41,6 +41,8 @@ class _SessionTimeoutManagerState extends State<SessionTimeoutManager>
 
     if (state == AppLifecycleState.inactive ||
         state == AppLifecycleState.paused) {
+      print(
+          "app is inactive timer started for ${widget._sessionConfig.invalidateSessionForAppLostFocus} time");
       if (widget._sessionConfig.invalidateSessionForAppLostFocus != null) {
         _appLostFocusTimer ??= _setTimeout(
           () => widget._sessionConfig.pushAppFocusTimeout(),
@@ -48,6 +50,7 @@ class _SessionTimeoutManagerState extends State<SessionTimeoutManager>
         );
       }
     } else if (state == AppLifecycleState.resumed) {
+      print("app regained focus, cancelling the timer");
       if (_appLostFocusTimer != null) {
         _clearTimeout(_appLostFocusTimer!);
         _appLostFocusTimer = null;
@@ -61,7 +64,10 @@ class _SessionTimeoutManagerState extends State<SessionTimeoutManager>
     if (widget._sessionConfig.invalidateSessionForUserInactiviity != null) {
       return Listener(
         onPointerDown: (_) {
+          print("user activity detected");
           if (_userTapActivityRecordEnabled) {
+            print(
+                "user activity recorder, new timer started for ${widget._sessionConfig.invalidateSessionForUserInactiviity} time");
             _userInactivityTimer?.cancel();
             _userInactivityTimer = _setTimeout(
               () => widget._sessionConfig.pushUserInactivityTimeout(),
