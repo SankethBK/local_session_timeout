@@ -266,13 +266,13 @@
       "languageVersion": "2.12"
     },
     {
-      "name": "local_timeout_session",
+      "name": "local_session_timeout",
       "rootUri": "../",
       "packageUri": "lib/",
       "languageVersion": "2.16"
     }
   ],
-  "generated": "2022-04-08T19:29:33.386166Z",
+  "generated": "2022-04-08T19:51:50.612757Z",
   "generator": "pub",
   "generatorVersion": "2.16.2"
 }
