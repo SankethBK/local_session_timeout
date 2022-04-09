@@ -68,7 +68,7 @@ packages:
     source: sdk
     version: "0.0.0"
   lints:
-    dependency: transitive
+    dependency: "direct dev"
     description:
       name: lints
       url: "https://pub.dartlang.org"

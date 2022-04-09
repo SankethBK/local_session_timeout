@@ -6,7 +6,7 @@ void main() {
 }
 
 class AuthPage extends StatelessWidget {
-  AuthPage({Key? key}) : super(key: key);
+  const AuthPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: AuthPage(),
+        home: const AuthPage(),
       ),
     );
   }
