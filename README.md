@@ -92,10 +92,10 @@ class MyApp extends StatelessWidget {
         invalidateSessionForUserInactiviity: const Duration(seconds: 30));
 
     sessionConfig.listen((SessionTimeoutState timeoutEvent) {
-    if (timeout == SessionTimeoutState.userInactivityTimeout) {
+    if (timeoutEvent == SessionTimeoutState.userInactivityTimeout) {
         // handle user  inactive timeout
         // Navigator.of(context).pushNamed("/auth");
-    } else if (imeout == SessionTimeoutState.appFocusTimeout) {
+    } else if (timeoutEvent == SessionTimeoutState.appFocusTimeout) {
         // handle user  app lost focus timeout
         // Navigator.of(context).pushNamed("/auth");
     }
