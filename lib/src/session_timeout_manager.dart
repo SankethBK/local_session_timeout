@@ -10,12 +10,12 @@ class SessionTimeoutManager extends StatefulWidget {
   /// Since updating [Timer] fir all user interactions could be expensive, user activity are recorded
   /// only after [updateUserActivityWindow] interval, by default its 1 minute
   final Duration updateUserActivityWindow;
-  const SessionTimeoutManager({
-    Key? key,
-    required sessionConfig,
-    required this.child,
-    this.updateUserActivityWindow = const Duration(minutes: 1),
-  })  : _sessionConfig = sessionConfig,
+  const SessionTimeoutManager(
+      {Key? key,
+      required sessionConfig,
+      required this.child,
+      this.updateUserActivityWindow = const Duration(seconds: 30)})
+      : _sessionConfig = sessionConfig,
         super(key: key);
 
   @override
@@ -50,6 +50,7 @@ class _SessionTimeoutManagerState extends State<SessionTimeoutManager>
         );
       }
     } else if (state == AppLifecycleState.resumed) {
+      print("app regained focus, cancelling the timer");
       if (_appLostFocusTimer != null) {
         _clearTimeout(_appLostFocusTimer!);
         _appLostFocusTimer = null;
@@ -63,7 +64,10 @@ class _SessionTimeoutManagerState extends State<SessionTimeoutManager>
     if (widget._sessionConfig.invalidateSessionForUserInactiviity != null) {
       return Listener(
         onPointerDown: (_) {
+          print("user activity detected");
           if (_userTapActivityRecordEnabled) {
+            print(
+                "user activity recorded, new timer started for ${widget._sessionConfig.invalidateSessionForUserInactiviity} time");
             _userInactivityTimer?.cancel();
             _userInactivityTimer = _setTimeout(
               () => widget._sessionConfig.pushUserInactivityTimeout(),
