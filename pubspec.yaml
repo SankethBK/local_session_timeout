@@ -1,6 +1,6 @@
 name: local_session_timeout
 description: redirect user to authentication page if the application doesn't recieve any user interaction, or been running in the background for "x" duration.
-version: 0.0.1
+version: 0.1.0
 homepage: https://github.com/SankethBK/local_session_timeout
 
 environment:
@@ -15,6 +15,7 @@ dev_dependencies:
   flutter_lints: ^1.0.0
   flutter_test:
     sdk: flutter
+  lints: ^1.0.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
