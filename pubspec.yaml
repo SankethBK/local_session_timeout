@@ -1,10 +1,10 @@
 name: local_session_timeout
-description: A new Flutter package project.
+description: redirect user to authentication page if the application doesn't recieve any user interaction, or been running in the background for "x" duration.
 version: 0.0.1
-homepage: www.google.com
+homepage: https://github.com/SankethBK/local_session_timeout
 
 environment:
-  sdk: '>=2.16.2 <3.0.0'
+  sdk: '>=2.16.0 <3.0.0'
   flutter: '>=1.17.0'
 
 dependencies:
