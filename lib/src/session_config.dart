@@ -1,6 +1,6 @@
 import 'dart:async';
 
-enum SessionTimeoutState { AppFocusTimeout, UserInactivityTimeout }
+enum SessionTimeoutState { appFocusTimeout, userInactivityTimeout }
 
 class SessionConfig {
   /// Immediately invalidates the sesion after [invalidateSessionForUserInactiviity] duration of user inactivity
@@ -23,13 +23,13 @@ class SessionConfig {
   /// Stream yields Map if session is valid, else null
   Stream<SessionTimeoutState> get stream => _controller.stream;
 
-  /// invalidate session and pass [SessionTimeoutState.AppFocusTimeout] through stream
+  /// invalidate session and pass [SessionTimeoutState.appFocusTimeout] through stream
   void pushAppFocusTimeout() {
-    _controller.sink.add(SessionTimeoutState.AppFocusTimeout);
+    _controller.sink.add(SessionTimeoutState.appFocusTimeout);
   }
 
-  /// invalidate session and pass [SessionTimeoutState.UserInactivityTimeout] through stream
+  /// invalidate session and pass [SessionTimeoutState.userInactivityTimeout] through stream
   void pushUserInactivityTimeout() {
-    _controller.sink.add(SessionTimeoutState.UserInactivityTimeout);
+    _controller.sink.add(SessionTimeoutState.userInactivityTimeout);
   }
 }
