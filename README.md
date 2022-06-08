@@ -35,7 +35,7 @@ final sessionConfig = SessionConfig(
 ```
 
 ```dart
-sessionConfig.listen((SessionTimeoutState timeoutEvent) {
+sessionConfig.stream.listen((SessionTimeoutState timeoutEvent) {
     if (timeout == SessionTimeoutState.userInactivityTimeout) {
         // handle user  inactive timeout
         // Navigator.of(context).pushNamed("/auth");
@@ -91,7 +91,7 @@ class MyApp extends StatelessWidget {
         invalidateSessionForAppLostFocus: const Duration(seconds: 15),
         invalidateSessionForUserInactiviity: const Duration(seconds: 30));
 
-    sessionConfig.listen((SessionTimeoutState timeoutEvent) {
+    sessionConfig.stream.listen((SessionTimeoutState timeoutEvent) {
     if (timeoutEvent == SessionTimeoutState.userInactivityTimeout) {
         // handle user  inactive timeout
         // Navigator.of(context).pushNamed("/auth");
