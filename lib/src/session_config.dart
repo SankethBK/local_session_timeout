@@ -32,4 +32,11 @@ class SessionConfig {
   void pushUserInactivityTimeout() {
     _controller.sink.add(SessionTimeoutState.userInactivityTimeout);
   }
+
+  /// call dispose method to close the stream
+  /// usually SessionConfig.stream should keep running until the app is terminated.
+  /// But if your usecase requires closing the stream, call the dispose method
+  void dispose() {
+    _controller.close();
+  }
 }
