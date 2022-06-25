@@ -7,3 +7,5 @@
 * Initial release
 
 ## 0.0.2
+
+* added dispose method to close the stream
