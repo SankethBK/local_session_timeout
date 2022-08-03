@@ -55,8 +55,11 @@ sessionConfig.stream.listen((SessionTimeoutState timeoutEvent) {
 #### Create SessionTimeoutManager object
 
 ```dart
+StreamController<SessionState> sessionStateStream:
 SessionTimeoutManager(
     sessionConfig: sessionConfig,
+    sessionStateStream: sessionStream,
+    userActivityDebounceDuration: const Duration(seconds: 10),
     child: MaterialApp(
     title: 'Flutter Demo',
     theme: ThemeData(
@@ -72,13 +75,24 @@ SessionTimeoutManager(
 
 * __sessionConfig (SessionConfig sessionConfig):__ *sessionConfig* object that was created previously.
 * __child (Widget widget):__ child widget in widget tree.
-* __updateUserActivityWindow (Duration duration) (optional):__ Since creating a timer object for each user interaction can be CPU intensive, a new timer will be started only in the intervals of *updateUserActivityWindow* duration, has default value of 1 minute.  
+* __userActivityDebounceDuration (Duration duration) (optional):__ Since creating a timer object for each user interaction can be CPU intensive, a new timer will be started only in the intervals of *userActivityDebounceDuration* duration, has default value of 10 seconds.  
+* __sessionStateStream\<SessionState> (StreamController\<SessionState>) (optional):__
+   - If the argument is not passed, session timeout manager will always be listening. 
+   - If the argument is passed, developer can selectively  disable the session timeout manager and re-enable it.
+  
+   ###### Sometimes you may want to disable the session timeout manager and re-enable it, consider the following scenarios: 
+
+  - User might be in a page reading someting which doesn't contribute to any user inactivity, so you may want to disable the session timeout manager when user is in this page. 
+  - Typing (both soft keyboard and hardware keyboard) isn't recorded by session timeout manager as user activity, because it is not possible to listen to keyboard events from outside the TextField widget in Flutter, so you may want to disable listener when soft keyboard is open.
+  - You may want to disable session timeout manager in auth page, as it doesn't makes much sense to redirect to auth page from auth page.
+  - To disable session timeout manager, pass *SessionState.stopListening* to this stream, and to re-enable session timeout manager, pass *SessionState.startListening* to this stream. (Developer is responsible for handling and disposing of streamController passed). If you don't pass this argument, sessiotimeout manager will always be listening. 
+
+  **All of the above usecases are covered in example app**
 
 Note: `Make sure to keep SessionTimeoutManager as top level widget of your widget tree, so that it records user activity in all screens`
 
 
-
-#### Complete Usage
+#### Sample Usage (refer example app for complete usage)
 
 ```dart
 

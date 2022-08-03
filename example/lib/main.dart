@@ -24,7 +24,6 @@ class MyApp extends StatelessWidget {
       invalidateSessionForUserInactiviity: const Duration(seconds: 5),
     );
     sessionConfig.stream.listen((SessionTimeoutState timeoutEvent) {
-      print("timeoutEvent = $timeoutEvent");
       // stop listening, as user will already be in auth page
       sessionStateStream.add(SessionState.stopListening);
       if (timeoutEvent == SessionTimeoutState.userInactivityTimeout) {
