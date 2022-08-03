@@ -3,19 +3,30 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'session_config.dart';
 
+enum SessionState { startListening, stopListening }
+
 class SessionTimeoutManager extends StatefulWidget {
   final SessionConfig _sessionConfig;
   final Widget child;
 
+  /// (Optional) Used for enabling and disabling the SessionTimeoutManager
+  ///
+  /// you might want to disable listening, is specific cases as user could be reading, waiting for OTP
+  /// where there is no user activity but you don't want to redirect user to login page
+  /// in such cases SessionTimeoutManager can be disabled and re-enabled when necessary
+  final Stream<SessionState>? _sessionStateStream;
+
   /// Since updating [Timer] fir all user interactions could be expensive, user activity are recorded
-  /// only after [updateUserActivityWindow] interval, by default its 1 minute
-  final Duration updateUserActivityWindow;
+  /// only after [userActivityDebounceDuration] interval, by default its 1 minute
+  final Duration userActivityDebounceDuration;
   const SessionTimeoutManager(
       {Key? key,
       required sessionConfig,
       required this.child,
-      this.updateUserActivityWindow = const Duration(seconds: 30)})
+      sessionStateStream,
+      this.userActivityDebounceDuration = const Duration(seconds: 1)})
       : _sessionConfig = sessionConfig,
+        _sessionStateStream = sessionStateStream,
         super(key: key);
 
   @override
@@ -26,21 +37,59 @@ class _SessionTimeoutManagerState extends State<SessionTimeoutManager>
     with WidgetsBindingObserver {
   Timer? _appLostFocusTimer;
   Timer? _userInactivityTimer;
+  bool _isListensing = false;
 
   bool _userTapActivityRecordEnabled = true;
+
+  void _closeAllTimers() {
+    if (_isListensing == false) {
+      return;
+    }
+
+    if (_appLostFocusTimer != null) {
+      _clearTimeout(_appLostFocusTimer!);
+    }
+
+    if (_userInactivityTimer != null) {
+      _clearTimeout(_userInactivityTimer!);
+    }
+
+    setState(() {
+      _isListensing = false;
+    });
+  }
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance?.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
+
+    // if there is no stream to handle enabling and disabling of SessionTimeoutManager,
+    // we always listen
+    if (widget._sessionStateStream == null) {
+      _isListensing = true;
+    }
+
+    widget._sessionStateStream?.listen((SessionState sessionState) {
+      if (sessionState == SessionState.startListening) {
+        setState(() {
+          _isListensing = true;
+        });
+
+        recordPointerEvent();
+      } else if (sessionState == SessionState.stopListening) {
+        _closeAllTimers();
+      }
+    });
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
 
-    if (state == AppLifecycleState.inactive ||
-        state == AppLifecycleState.paused) {
+    if (_isListensing == true &&
+        (state == AppLifecycleState.inactive ||
+            state == AppLifecycleState.paused)) {
       if (widget._sessionConfig.invalidateSessionForAppLostFocus != null) {
         _appLostFocusTimer ??= _setTimeout(
           () => widget._sessionConfig.pushAppFocusTimeout(),
@@ -58,36 +107,40 @@ class _SessionTimeoutManagerState extends State<SessionTimeoutManager>
   @override
   Widget build(BuildContext context) {
     // Attach Listener only if user wants to invalidate session on user inactivity
-    if (widget._sessionConfig.invalidateSessionForUserInactiviity != null) {
+    if (_isListensing &&
+        widget._sessionConfig.invalidateSessionForUserInactiviity != null) {
       return Listener(
         onPointerDown: (_) {
-          if (_userTapActivityRecordEnabled) {
-            _userInactivityTimer?.cancel();
-            _userInactivityTimer = _setTimeout(
-              () => widget._sessionConfig.pushUserInactivityTimeout(),
-              duration:
-                  widget._sessionConfig.invalidateSessionForUserInactiviity!,
-            );
-
-            /// lock the button for next [updateUserActivityWindow] duration
-
-            setState(() {
-              _userTapActivityRecordEnabled = false;
-            });
-
-            // Enable it after [updateUserActivityWindow] duration
-
-            Timer(
-              widget.updateUserActivityWindow,
-              () => setState(() => _userTapActivityRecordEnabled = true),
-            );
-          }
+          recordPointerEvent();
         },
         child: widget.child,
       );
     }
 
     return widget.child;
+  }
+
+  void recordPointerEvent() {
+    if (_userTapActivityRecordEnabled) {
+      _userInactivityTimer?.cancel();
+      _userInactivityTimer = _setTimeout(
+        () => widget._sessionConfig.pushUserInactivityTimeout(),
+        duration: widget._sessionConfig.invalidateSessionForUserInactiviity!,
+      );
+
+      /// lock the button for next [userActivityDebounceDuration] duration
+
+      setState(() {
+        _userTapActivityRecordEnabled = false;
+      });
+
+      // Enable it after [userActivityDebounceDuration] duration
+
+      Timer(
+        widget.userActivityDebounceDuration,
+        () => setState(() => _userTapActivityRecordEnabled = true),
+      );
+    }
   }
 
   Timer _setTimeout(callback, {required Duration duration}) {

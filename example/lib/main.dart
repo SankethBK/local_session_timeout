@@ -15,7 +15,7 @@ class AuthPage extends StatelessWidget {
         child: ElevatedButton(
           onPressed: () {
             Navigator.of(context)
-                .push(MaterialPageRoute(builder: (_) => MyHomePage()));
+                .push(MaterialPageRoute(builder: (_) => const MyHomePage()));
           },
           child: const Text("Login"),
         ),
@@ -38,10 +38,10 @@ class MyApp extends StatelessWidget {
     sessionConfig.stream.listen((SessionTimeoutState timeoutEvent) {
       if (timeoutEvent == SessionTimeoutState.userInactivityTimeout) {
         // handle user  inactive timeout
-        _navigator.push(MaterialPageRoute(builder: (_) => AuthPage()));
+        _navigator.push(MaterialPageRoute(builder: (_) => const AuthPage()));
       } else if (timeoutEvent == SessionTimeoutState.appFocusTimeout) {
         // handle user  app lost focus timeout
-        _navigator.push(MaterialPageRoute(builder: (_) => AuthPage()));
+        _navigator.push(MaterialPageRoute(builder: (_) => const AuthPage()));
       }
     });
     return SessionTimeoutManager(
