@@ -10,3 +10,8 @@
 ## 0.2.0
 
 * added dispose method to close the stream
+
+# 1.0.0
+
+* Introduced SessionStateStream to disable and re-enable session timeout manager.
+* **\[Breaking]** Changed variable name _updateUserActivityWindow_  to _userActivityDebounceDuration_
