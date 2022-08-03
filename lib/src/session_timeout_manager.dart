@@ -24,7 +24,7 @@ class SessionTimeoutManager extends StatefulWidget {
       required sessionConfig,
       required this.child,
       sessionStateStream,
-      this.userActivityDebounceDuration = const Duration(seconds: 1)})
+      this.userActivityDebounceDuration = const Duration(seconds: 10)})
       : _sessionConfig = sessionConfig,
         _sessionStateStream = sessionStateStream,
         super(key: key);
