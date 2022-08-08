@@ -128,6 +128,10 @@ class MyApp extends StatelessWidget {
   }
 }
 ```
+
+## Support
+
+All OS's will support userInactivityTimeout, but appLostFocusTImeout is supported only on mobile devices (Android and IOS) as Flutter doesn't support widget lifecycle methods on desktop and Web.
 ## Additional information
 
 This package can be used for both online and offline applications. Even if the application has session / token based auth with webserver, invalidating the session may require require communication with web server, which is not possibe if the user turns off internet connection and pushes the app to the background.

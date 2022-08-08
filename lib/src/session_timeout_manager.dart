@@ -62,7 +62,7 @@ class _SessionTimeoutManagerState extends State<SessionTimeoutManager>
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance?.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
 
     // if there is no stream to handle enabling and disabling of SessionTimeoutManager,
     // we always listen

@@ -15,3 +15,7 @@
 
 * Introduced SessionStateStream to disable and re-enable session timeout manager.
 * **\[Breaking]** Changed variable name _updateUserActivityWindow_  to _userActivityDebounceDuration_
+
+# 2.0.0
+
+* Extended support for Flutter 3
