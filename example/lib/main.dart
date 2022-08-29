@@ -201,9 +201,11 @@ class _WritingPageState extends State<WritingPage> {
   @override
   Widget build(BuildContext context) {
     if (MediaQuery.of(context).viewInsets.bottom > 0) {
+      print("stopped listening");
       // softkeyboard is open
       widget.sessionStream.add(SessionState.stopListening);
     } else {
+      print("started listening");
       // keyboard is closed
       widget.sessionStream.add(SessionState.startListening);
     }
