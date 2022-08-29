@@ -57,6 +57,7 @@ class _SessionTimeoutManagerState extends State<SessionTimeoutManager>
 
     setState(() {
       _isListensing = false;
+      _userTapActivityRecordEnabled = false;
     });
   }
 
