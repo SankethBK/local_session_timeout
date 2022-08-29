@@ -42,6 +42,7 @@ class _SessionTimeoutManagerState extends State<SessionTimeoutManager>
   bool _userTapActivityRecordEnabled = true;
 
   void _closeAllTimers() {
+    print("closing all timers");
     if (_isListensing == false) {
       return;
     }
@@ -72,12 +73,14 @@ class _SessionTimeoutManagerState extends State<SessionTimeoutManager>
 
     widget._sessionStateStream?.listen((SessionState sessionState) {
       if (sessionState == SessionState.startListening) {
+        print("start listening");
         setState(() {
           _isListensing = true;
         });
 
         recordPointerEvent();
       } else if (sessionState == SessionState.stopListening) {
+        print("stop listening");
         _closeAllTimers();
       }
     });
@@ -106,6 +109,7 @@ class _SessionTimeoutManagerState extends State<SessionTimeoutManager>
 
   @override
   Widget build(BuildContext context) {
+    print("isListening: $_isListensing (build)");
     // Attach Listener only if user wants to invalidate session on user inactivity
     if (_isListensing &&
         widget._sessionConfig.invalidateSessionForUserInactiviity != null) {
@@ -123,6 +127,7 @@ class _SessionTimeoutManagerState extends State<SessionTimeoutManager>
   void recordPointerEvent() {
     if (_userTapActivityRecordEnabled) {
       _userInactivityTimer?.cancel();
+      print("starting new timer");
       _userInactivityTimer = _setTimeout(
         () => widget._sessionConfig.pushUserInactivityTimeout(),
         duration: widget._sessionConfig.invalidateSessionForUserInactiviity!,
