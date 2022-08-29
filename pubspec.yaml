@@ -1,6 +1,6 @@
 name: local_session_timeout
 description: redirect user to authentication page if the application doesn't recieve any user interaction, or been running in the background for "x" duration.
-version: 2.0.0
+version: 2.1.0
 homepage: https://github.com/SankethBK/local_session_timeout
 
 environment:

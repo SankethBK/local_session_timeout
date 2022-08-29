@@ -85,11 +85,11 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "40ca5486463f969d4f28e4272b401a4a3a28bbe9"
-      resolved-ref: "40ca5486463f969d4f28e4272b401a4a3a28bbe9"
+      ref: "9f5f534e2f8924bda09c4c2da3f210a034163185"
+      resolved-ref: "9f5f534e2f8924bda09c4c2da3f210a034163185"
       url: "https://github.com/SankethBK/local_session_timeout"
     source: git
-    version: "1.0.0"
+    version: "2.0.0"
   matcher:
     dependency: transitive
     description:

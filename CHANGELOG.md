@@ -19,3 +19,7 @@
 # 2.0.0
 
 * Extended support for Flutter 3
+
+# 2.1.0
+
+* Bug fix (listener not working when it is stopped and started again)
