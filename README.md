@@ -20,7 +20,7 @@ and the Flutter guide for
 ## Getting started
 
 ```dart
-import 'package:local_timeout_session/local_session_timeout.dart';
+import 'package:local_session_timeout/local_session_timeout.dart';
 ```
 #### Create SessionConfig object
 
