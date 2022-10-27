@@ -24,3 +24,6 @@
 
 * Bug fix (listener not working when it is stopped and started again)
 
+## 2.1.2
+
+* Fixed typo ~~invalidateSessionForUserInactiviity~~ -> invalidateSessionForUserInactivity

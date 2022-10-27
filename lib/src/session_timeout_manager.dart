@@ -109,7 +109,7 @@ class _SessionTimeoutManagerState extends State<SessionTimeoutManager>
   Widget build(BuildContext context) {
     // Attach Listener only if user wants to invalidate session on user inactivity
     if (_isListensing &&
-        widget._sessionConfig.invalidateSessionForUserInactiviity != null) {
+        widget._sessionConfig.invalidateSessionForUserInactivity != null) {
       return Listener(
         onPointerDown: (_) {
           recordPointerEvent();
@@ -126,7 +126,7 @@ class _SessionTimeoutManagerState extends State<SessionTimeoutManager>
       _userInactivityTimer?.cancel();
       _userInactivityTimer = _setTimeout(
         () => widget._sessionConfig.pushUserInactivityTimeout(),
-        duration: widget._sessionConfig.invalidateSessionForUserInactiviity!,
+        duration: widget._sessionConfig.invalidateSessionForUserInactivity!,
       );
 
       /// lock the button for next [userActivityDebounceDuration] duration

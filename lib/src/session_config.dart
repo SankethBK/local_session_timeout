@@ -3,10 +3,10 @@ import 'dart:async';
 enum SessionTimeoutState { appFocusTimeout, userInactivityTimeout }
 
 class SessionConfig {
-  /// Immediately invalidates the sesion after [invalidateSessionForUserInactiviity] duration of user inactivity
+  /// Immediately invalidates the sesion after [invalidateSessionForUserInactivity] duration of user inactivity
   ///
   /// If null, never invalidates the session for user inactivity
-  final Duration? invalidateSessionForUserInactiviity;
+  final Duration? invalidateSessionForUserInactivity;
 
   ///  mmediately invalidates the sesion after [invalidateSessionForAppLostFocus] duration of app losing focus
   ///
@@ -14,7 +14,7 @@ class SessionConfig {
   final Duration? invalidateSessionForAppLostFocus;
 
   SessionConfig({
-    this.invalidateSessionForUserInactiviity,
+    this.invalidateSessionForUserInactivity,
     this.invalidateSessionForAppLostFocus,
   });
 

@@ -31,7 +31,7 @@ It exposes a stream which can be listened for timeout events
 ```dart
 final sessionConfig = SessionConfig(
     invalidateSessionForAppLostFocus: const Duration(seconds: 15),
-    invalidateSessionForUserInactiviity: const Duration(seconds: 30));
+    invalidateSessionForUserInactivity: const Duration(seconds: 30));
 ```
 
 ```dart
@@ -50,7 +50,7 @@ sessionConfig.stream.listen((SessionTimeoutState timeoutEvent) {
 
 * __invalidateSessionForAppLostFocus (Duration? duration):__ *appFocusTimeout* event will be emitted through the stream, if the app loses focus and running in background for specified duration. If duration passed is *null*, app will not emit timeout events for losing focus / pushed into background.
 
-* __invalidateSessionForUserInactiviity (Duration? duration):__ *userInactivityTimeout* evebt will be emitted through the stream, if the app doesn't recieve any user activity for specified duration. If duration passed is *null*, app will not emit timeout events for user inactivity.
+* __invalidateSessionForUserInactivity (Duration? duration):__ *userInactivityTimeout* evebt will be emitted through the stream, if the app doesn't recieve any user activity for specified duration. If duration passed is *null*, app will not emit timeout events for user inactivity.
 
 #### Create SessionTimeoutManager object
 
@@ -103,7 +103,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final sessionConfig = SessionConfig(
         invalidateSessionForAppLostFocus: const Duration(seconds: 15),
-        invalidateSessionForUserInactiviity: const Duration(seconds: 30));
+        invalidateSessionForUserInactivity: const Duration(seconds: 30));
 
     sessionConfig.stream.listen((SessionTimeoutState timeoutEvent) {
     if (timeoutEvent == SessionTimeoutState.userInactivityTimeout) {

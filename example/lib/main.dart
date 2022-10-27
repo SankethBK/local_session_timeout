@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final sessionConfig = SessionConfig(
       invalidateSessionForAppLostFocus: const Duration(seconds: 3),
-      invalidateSessionForUserInactiviity: const Duration(seconds: 5),
+      invalidateSessionForUserInactivity: const Duration(seconds: 5),
     );
     sessionConfig.stream.listen((SessionTimeoutState timeoutEvent) {
       // stop listening, as user will already be in auth page

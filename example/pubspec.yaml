@@ -30,9 +30,8 @@ dependencies:
   flutter:
     sdk: flutter
   local_session_timeout:
-    git:
-      url: https://github.com/SankethBK/local_session_timeout
-      ref: 9f5f534e2f8924bda09c4c2da3f210a034163185
+    path: ../
+
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
