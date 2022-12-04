@@ -122,7 +122,8 @@ class _SessionTimeoutManagerState extends State<SessionTimeoutManager>
   }
 
   void recordPointerEvent() {
-    if (_userTapActivityRecordEnabled) {
+    if (_userTapActivityRecordEnabled &&
+        widget._sessionConfig.invalidateSessionForUserInactivity != null) {
       _userInactivityTimer?.cancel();
       _userInactivityTimer = _setTimeout(
         () => widget._sessionConfig.pushUserInactivityTimeout(),

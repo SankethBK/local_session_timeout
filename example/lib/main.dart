@@ -20,8 +20,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final sessionConfig = SessionConfig(
-      invalidateSessionForAppLostFocus: const Duration(seconds: 3),
-      invalidateSessionForUserInactivity: const Duration(seconds: 5),
+      invalidateSessionForAppLostFocus: const Duration(seconds: 5),
+      invalidateSessionForUserInactivity: const Duration(seconds: 4),
     );
     sessionConfig.stream.listen((SessionTimeoutState timeoutEvent) {
       // stop listening, as user will already be in auth page
@@ -43,6 +43,7 @@ class MyApp extends StatelessWidget {
       }
     });
     return SessionTimeoutManager(
+      userActivityDebounceDuration: const Duration(seconds: 1),
       sessionConfig: sessionConfig,
       sessionStateStream: sessionStateStream.stream,
       child: MaterialApp(
