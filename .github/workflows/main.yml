@@ -37,4 +37,4 @@ jobs:
           api-level: ${{ matrix.api-level }}
           arch: x86_64
           profile: Nexus 6
-          script: flutter test integration_test --verbose
+          script: cd example && flutter test integration_test --verbose
