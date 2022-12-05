@@ -22,8 +22,6 @@ jobs:
     runs-on: macOS-latest
     # Contains a sequence of tasks.
     steps:
-    - name: "Switch to example"
-      run: "cd example"
     # A name for your step to display on GitHub.
     - name: "List all simulators"
       run: "xcrun instruments -s"
@@ -47,4 +45,4 @@ jobs:
       with:
         channel: 'stable' # or: 'dev' or 'beta'
     - name: "Run Flutter Driver tests"
-      run: "flutter drive --target=test_driver/app.dart"
+      run: "cd example && flutter drive --target=test_driver/app.dart"
