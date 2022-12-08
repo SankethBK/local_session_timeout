@@ -9,31 +9,41 @@ on: [push, workflow_dispatch]
 # The first one runs tests on iOS devices.
 # The second runs tests on Android devices
 jobs:
-
+  test_Android:
+    needs: analyze
+    name: Test Android build on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-java@v1
+        with:
+          java-version: "11.x"
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+      - run: dart --version
+      - run: flutter --version
+      - run: cd image_editor; flutter pub get
+      - run: sudo echo "y" | sudo $ANDROID_HOME/tools/bin/sdkmanager "ndk;21.4.7075529"
+      - run: cd image_editor/example; flutter build apk --debug
   # job responsible for running Flutter tests on Android devices
   android:
-    runs-on: macos-latest
+    runs-on: ${{ matrix.os }}
     strategy:
-          # you can add more API level if you want to run your tests on different API
-      fail-fast: true
+      matrix:
+        os: [ubuntu-latest]
     steps:
-      - uses: actions/checkout@v3
-      - name: Setup Flutter SDK
-        uses: subosito/flutter-action@v2
+      - uses: actions/checkout@v1
+      - uses: actions/setup-java@v1
         with:
-          channel: stable
-          # instead of "channel: stable", you could be more precise by specifying the exact version of Flutter you're using:
-          # flutter-version: '<FLUTTER_VERSION>'
-      - name: Install Flutter dependencies
-        run:  cd example && flutter pub get
-      - name: Restart hanging adb
-        run: adb kill-server && adb start-server
-      - name: Run integration tests
-        # more info on https://github.com/ReactiveCircus/android-emulator-runner
-        uses: reactivecircus/android-emulator-runner@v2
+          java-version: "11.x"
+      - uses: subosito/flutter-action@v2
         with:
-          api-level: 29
-          arch: x86_64
-          emulator-build: 7425822
-          run: adb kill-server && adb start-server
-          script: flutter test integration_test --verbose
+          channel: "stable"
+      - run: dart --version
+      - run: flutter --version
+      - run: cd example; flutter pub get
+      - run: flutter test integration_test
