@@ -33,4 +33,5 @@ jobs:
           api-level: 29
           arch: x86_64
           emulator-build: 7425822
+          run: adb kill-server && adb start-server
           script: flutter test integration_test --verbose
