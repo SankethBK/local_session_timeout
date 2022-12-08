@@ -22,6 +22,13 @@ jobs:
       fail-fast: true
     runs-on: macos-11 # or macos-latest if you prefer, but be aware that the available simulators could be different if you run a different version
     steps:
+      - uses: actions/checkout@v2
+      - name: Setup upterm session
+        uses: lhotari/action-upterm@v1
+        with:
+        ## limits ssh access and adds the ssh public key for the user which triggered the workflow
+          limit-access-to-actor: true
+
       - name: "List all simulators"
         run: "xcrun xctrace list devices"
       - name: "Start Simulator"
