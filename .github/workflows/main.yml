@@ -4,32 +4,7 @@ name: Dart CI
 
 # Trigger the workflow manually or after push a commit
 on: [push, workflow_dispatch]
-
-# 2 jobs are configured.
-# The first one runs tests on iOS devices.
-# The second runs tests on Android devices
 jobs:
-  test_Android:
-    needs: analyze
-    name: Test Android build on ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-    steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-java@v1
-        with:
-          java-version: "11.x"
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: "stable"
-      - run: dart --version
-      - run: flutter --version
-      - run: cd image_editor; flutter pub get
-      - run: sudo echo "y" | sudo $ANDROID_HOME/tools/bin/sdkmanager "ndk;21.4.7075529"
-      - run: cd image_editor/example; flutter build apk --debug
-  # job responsible for running Flutter tests on Android devices
   android:
     runs-on: ${{ matrix.os }}
     strategy:
