@@ -28,5 +28,7 @@ jobs:
           channel: stable
       - name: Install Flutter dependencies
         run: flutter pub get
+      - name: Install Flutter dependencies for example
+        run: cd example; flutter pub get
       - name: Run integration tests
         run: flutter test example/integration_test --verbose
