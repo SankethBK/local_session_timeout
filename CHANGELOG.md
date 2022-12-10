@@ -30,4 +30,4 @@
 
 # 2.2.0
 
-* FIxed a bug related to null check
+* Fixed a bug related to null check
