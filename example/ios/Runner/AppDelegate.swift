@@ -11,3 +11,9 @@ import Flutter
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 }
+
+// here
+func registerPlugins(registry: FlutterPluginRegistry) {
+  GeneratedPluginRegistrant.register(with: registry)
+}
+
