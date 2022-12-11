@@ -30,7 +30,6 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter:
     sdk: flutter
-  flutter_foreground_task: ^3.10.0
   local_session_timeout:
     path: ../
 
