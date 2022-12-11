@@ -29,4 +29,4 @@ jobs:
       - name: Install Flutter dependencies
         run: flutter pub get
       - name: Run integration tests
-        run: flutter test example/integration_test --verbose
+        run: cd example; flutter pub get;flutter test integration_test --verbose
