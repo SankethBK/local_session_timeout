@@ -28,6 +28,6 @@
 
 * Fixed typo ~~invalidateSessionForUserInactiviity~~ -> invalidateSessionForUserInactivity
 
-# 2.2.0
+## 2.2.0
 
 * Fixed a bug related to null check
