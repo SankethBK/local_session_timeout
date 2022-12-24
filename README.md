@@ -2,7 +2,7 @@
 
 
 
-* With local_session_tomeout you can redirect user to authentication page, if the application hasn't recieved any user interaction, or been running in the background for "x" duration.
+* With local_session_timeout you can redirect user to authentication page, if the application hasn't received any user interaction, or been running in the background for "x" duration.
 * Works locally, does not require internet connection.
 * Useful for apps with confidential information. If the user leaves the app running, or pushes it to the background to use later and forgets to close it.
 * Works on android, ios, web and desktop.
