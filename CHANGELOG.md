@@ -31,3 +31,7 @@
 ## 2.2.0
 
 * Fixed a bug related to null check
+
+## 2.3.0
+
+* Bugfix: setState getting called after SessionTimeoutManager is removed from widget tree
