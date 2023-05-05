@@ -40,7 +40,7 @@ sessionConfig.stream.listen((SessionTimeoutState timeoutEvent) {
 
 * __invalidateSessionForAppLostFocus (Duration? duration):__ *appFocusTimeout* event will be emitted through the stream, if the app loses focus and running in background for specified duration. If duration passed is *null*, app will not emit timeout events for losing focus / pushed into background.
 
-* __invalidateSessionForUserInactivity (Duration? duration):__ *userInactivityTimeout* evebt will be emitted through the stream, if the app doesn't recieve any user activity for specified duration. If duration passed is *null*, app will not emit timeout events for user inactivity.
+* __invalidateSessionForUserInactivity (Duration? duration):__ *userInactivityTimeout* event will be emitted through the stream, if the app doesn't recieve any user activity for specified duration. If duration passed is *null*, app will not emit timeout events for user inactivity.
 
 #### Create SessionTimeoutManager object
 
@@ -75,7 +75,7 @@ SessionTimeoutManager(
   - User might be in a page reading someting which doesn't contribute to any user inactivity, so you may want to disable the session timeout manager when user is in this page. 
   - Typing (both soft keyboard and hardware keyboard) isn't recorded by session timeout manager as user activity, because it is not possible to listen to keyboard events from outside the TextField widget in Flutter, so you may want to disable listener when soft keyboard is open.
   - You may want to disable session timeout manager in auth page, as it doesn't makes much sense to redirect to auth page from auth page.
-  - To disable session timeout manager, pass *SessionState.stopListening* to this stream, and to re-enable session timeout manager, pass *SessionState.startListening* to this stream. (Developer is responsible for handling and disposing of streamController passed). If you don't pass this argument, sessiotimeout manager will always be listening. 
+  - To disable session timeout manager, pass *SessionState.stopListening* to this stream, and to re-enable session timeout manager, pass *SessionState.startListening* to this stream. (Developer is responsible for handling and disposing of streamController passed). If you don't pass this argument, session timeout manager will always be listening. 
 
   **All of the above usecases are covered in example app**
 
