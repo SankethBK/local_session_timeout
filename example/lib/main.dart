@@ -8,7 +8,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({Key? key}) : super(key: key);
+  MyApp({super.key});
 
   final _navigatorKey = GlobalKey<NavigatorState>();
   NavigatorState get _navigator => _navigatorKey.currentState!;
@@ -60,14 +60,16 @@ class MyApp extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class AuthPage extends StatelessWidget {
-  StreamController<SessionState> sessionStateStream;
+  AuthPage({
+    required this.sessionStateStream,
+    this.loggedOutReason = "",
+    super.key,
+  });
 
-  String loggedOutReason;
-
-  AuthPage(
-      {Key? key, required this.sessionStateStream, this.loggedOutReason = ""})
-      : super(key: key);
+  final StreamController<SessionState> sessionStateStream;
+  late String loggedOutReason;
 
   @override
   Widget build(BuildContext context) {
@@ -109,9 +111,12 @@ class AuthPage extends StatelessWidget {
 }
 
 class MyHomePage extends StatelessWidget {
-  StreamController<SessionState> sessionStateStream;
+  final StreamController<SessionState> sessionStateStream;
 
-  MyHomePage({Key? key, required this.sessionStateStream}) : super(key: key);
+  const MyHomePage({
+    required this.sessionStateStream,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -132,7 +137,7 @@ class MyHomePage extends StatelessWidget {
                 sessionStateStream.add(SessionState.stopListening);
                 await Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (_) => ReadingPage(),
+                    builder: (_) => const ReadingPage(),
                   ),
                 );
 
@@ -165,7 +170,7 @@ class MyHomePage extends StatelessWidget {
 // If you want to disable the session timeout listeners when user enters such pages
 // follow the below code
 class ReadingPage extends StatefulWidget {
-  const ReadingPage({Key? key}) : super(key: key);
+  const ReadingPage({super.key});
 
   @override
   State<ReadingPage> createState() => _ReadingPageState();
@@ -192,7 +197,10 @@ class _ReadingPageState extends State<ReadingPage> {
 // manager and it may conclude that user is inactive
 class WritingPage extends StatefulWidget {
   final StreamController<SessionState> sessionStream;
-  const WritingPage({Key? key, required this.sessionStream}) : super(key: key);
+  const WritingPage({
+    required this.sessionStream,
+    super.key,
+  });
 
   @override
   State<WritingPage> createState() => _WritingPageState();

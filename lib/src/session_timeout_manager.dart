@@ -20,14 +20,13 @@ class SessionTimeoutManager extends StatefulWidget {
   /// only after [userActivityDebounceDuration] interval, by default its 1 minute
   final Duration userActivityDebounceDuration;
   const SessionTimeoutManager(
-      {Key? key,
-      required sessionConfig,
+      {required sessionConfig,
       required this.child,
       sessionStateStream,
-      this.userActivityDebounceDuration = const Duration(seconds: 10)})
+      this.userActivityDebounceDuration = const Duration(seconds: 10),
+      super.key})
       : _sessionConfig = sessionConfig,
-        _sessionStateStream = sessionStateStream,
-        super(key: key);
+        _sessionStateStream = sessionStateStream;
 
   @override
   _SessionTimeoutManagerState createState() => _SessionTimeoutManagerState();
@@ -53,11 +52,12 @@ class _SessionTimeoutManagerState extends State<SessionTimeoutManager>
     if (_userInactivityTimer != null) {
       _clearTimeout(_userInactivityTimer!);
     }
-
-    setState(() {
-      _isListensing = false;
-      _userTapActivityRecordEnabled = true;
-    });
+    if (mounted) {
+      setState(() {
+        _isListensing = false;
+        _userTapActivityRecordEnabled = true;
+      });
+    }
   }
 
   @override
@@ -72,7 +72,7 @@ class _SessionTimeoutManagerState extends State<SessionTimeoutManager>
     }
 
     widget._sessionStateStream?.listen((SessionState sessionState) {
-      if (sessionState == SessionState.startListening) {
+      if (sessionState == SessionState.startListening && mounted) {
         setState(() {
           _isListensing = true;
         });
@@ -131,16 +131,21 @@ class _SessionTimeoutManagerState extends State<SessionTimeoutManager>
       );
 
       /// lock the button for next [userActivityDebounceDuration] duration
-
-      setState(() {
-        _userTapActivityRecordEnabled = false;
-      });
+      if (mounted) {
+        setState(() {
+          _userTapActivityRecordEnabled = false;
+        });
+      }
 
       // Enable it after [userActivityDebounceDuration] duration
 
       Timer(
         widget.userActivityDebounceDuration,
-        () => setState(() => _userTapActivityRecordEnabled = true),
+        () {
+          if (mounted) {
+            setState(() => _userTapActivityRecordEnabled = true);
+          }
+        },
       );
     }
   }
