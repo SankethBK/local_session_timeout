@@ -25,13 +25,18 @@ final sessionConfig = SessionConfig(
 ```
 
 ```dart
+
+// If you don't have access to Navigator via context, you can access it like this
+final navigatorKey = GlobalKey<NavigatorState>();
+NavigatorState get _navigator => navigatorKey.currentState!;
+
 sessionConfig.stream.listen((SessionTimeoutState timeoutEvent) {
     if (timeout == SessionTimeoutState.userInactivityTimeout) {
         // handle user  inactive timeout
-        // Navigator.of(context).pushNamed("/auth");
+        _navigator.pushNamed("/auth");
     } else if (imeout == SessionTimeoutState.appFocusTimeout) {
         // handle user  app lost focus timeout
-        // Navigator.of(context).pushNamed("/auth");
+        _navigator.pushNamed("/auth");
     }
 });
 ```
