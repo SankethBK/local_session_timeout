@@ -35,3 +35,7 @@
 ## 2.3.0
 
 * Bugfix: setState getting called after SessionTimeoutManager is removed from widget tree
+
+## 2.3.1
+
+* Changed default of `userActivityDebounceDuration` to 1 second as it leads to common bugs
