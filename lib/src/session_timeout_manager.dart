@@ -53,10 +53,8 @@ class _SessionTimeoutManagerState extends State<SessionTimeoutManager>
       _clearTimeout(_userInactivityTimer!);
     }
     if (mounted) {
-      setState(() {
-        _isListensing = false;
-        _userTapActivityRecordEnabled = true;
-      });
+      _isListensing = false;
+      _userTapActivityRecordEnabled = true;
     }
   }
 
@@ -73,9 +71,7 @@ class _SessionTimeoutManagerState extends State<SessionTimeoutManager>
 
     widget._sessionStateStream?.listen((SessionState sessionState) {
       if (sessionState == SessionState.startListening && mounted) {
-        setState(() {
-          _isListensing = true;
-        });
+        _isListensing = true;
 
         recordPointerEvent();
       } else if (sessionState == SessionState.stopListening) {
@@ -135,9 +131,7 @@ class _SessionTimeoutManagerState extends State<SessionTimeoutManager>
 
       /// lock the button for next [userActivityDebounceDuration] duration
       if (mounted) {
-        setState(() {
-          _userTapActivityRecordEnabled = false;
-        });
+        _userTapActivityRecordEnabled = false;
       }
 
       // Enable it after [userActivityDebounceDuration] duration
@@ -146,7 +140,7 @@ class _SessionTimeoutManagerState extends State<SessionTimeoutManager>
         widget.userActivityDebounceDuration,
         () {
           if (mounted) {
-            setState(() => _userTapActivityRecordEnabled = true);
+            _userTapActivityRecordEnabled = true;
           }
         },
       );
