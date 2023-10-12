@@ -39,3 +39,7 @@
 ## 2.3.1
 
 * Changed default of `userActivityDebounceDuration` to 1 second as it leads to common bugs
+
+## 2.3.2
+
+* Removed state because of issues in GetX
