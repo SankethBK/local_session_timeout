@@ -37,16 +37,13 @@ class _SessionTimeoutManagerState extends State<SessionTimeoutManager>
   Timer? _appLostFocusTimer;
   Timer? _userInactivityTimer;
   bool _isListensing = false;
+  DateTime? _appLostFocusTimestamp;
 
   bool _userTapActivityRecordEnabled = true;
 
   void _closeAllTimers() {
     if (_isListensing == false) {
       return;
-    }
-
-    if (_appLostFocusTimer != null) {
-      _clearTimeout(_appLostFocusTimer!);
     }
 
     if (_userInactivityTimer != null) {
@@ -92,11 +89,18 @@ class _SessionTimeoutManagerState extends State<SessionTimeoutManager>
           () => widget._sessionConfig.pushAppFocusTimeout(),
           duration: widget._sessionConfig.invalidateSessionForAppLostFocus!,
         );
+
+        _appLostFocusTimestamp = DateTime.now();
       }
     } else if (state == AppLifecycleState.resumed) {
-      if (_appLostFocusTimer != null) {
-        _clearTimeout(_appLostFocusTimer!);
-        _appLostFocusTimer = null;
+      if (_appLostFocusTimestamp != null) {
+        final currentTimeStamp = DateTime.now();
+        final difference = currentTimeStamp.difference(_appLostFocusTimestamp!);
+
+        if (difference > widget._sessionConfig.invalidateSessionForAppLostFocus!) {
+          _appLostFocusTimestamp = null;
+          widget._sessionConfig.pushAppFocusTimeout();
+        }
       }
     }
   }
