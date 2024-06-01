@@ -1,5 +1,3 @@
-[![Dart CI](https://github.com/SankethBK/local_session_timeout/actions/workflows/main.yml/badge.svg)](https://github.com/SankethBK/local_session_timeout/actions/workflows/main.yml)
-
 
 
 * With local_session_timeout you can redirect user to authentication page, if the application hasn't received any user interaction, or been running in the background for "x" duration.
