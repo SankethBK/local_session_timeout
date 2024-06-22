@@ -47,3 +47,7 @@
 ## 3.0.0
 
 * Fixed an issue where `appFocusTimeout` was not emitted on higher versions of Android. This occurred because the process was being terminated by the OS due to battery optimization settings. The latest version takes a more passive approach to determine if the duration has paassed after app has lost focus which ensures `appFocusTimeout` will always be emitted regardless of battery optimization
+
+## 3.1.0
+
+* Fixed an issue where `appFocusTimeout` wasn't pushed because of a bug related to timer.

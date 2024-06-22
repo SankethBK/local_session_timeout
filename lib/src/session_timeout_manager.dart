@@ -32,7 +32,8 @@ class SessionTimeoutManager extends StatefulWidget {
   _SessionTimeoutManagerState createState() => _SessionTimeoutManagerState();
 }
 
-class _SessionTimeoutManagerState extends State<SessionTimeoutManager> with WidgetsBindingObserver {
+class _SessionTimeoutManagerState extends State<SessionTimeoutManager>
+    with WidgetsBindingObserver {
   Timer? _userInactivityTimer;
   bool _isListensing = false;
   DateTime? _appLostFocusTimestamp;
@@ -79,21 +80,20 @@ class _SessionTimeoutManagerState extends State<SessionTimeoutManager> with Widg
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
 
-    print("state = $state");
     if (_isListensing == true &&
-        (state == AppLifecycleState.inactive || state == AppLifecycleState.paused)) {
+        (state == AppLifecycleState.inactive ||
+            state == AppLifecycleState.paused)) {
       if (widget._sessionConfig.invalidateSessionForAppLostFocus != null &&
           _appLostFocusTimestamp == null) {
         _appLostFocusTimestamp = DateTime.now();
-        print("recorded start time = $_appLostFocusTimestamp");
       }
     } else if (state == AppLifecycleState.resumed) {
       if (_appLostFocusTimestamp != null) {
         final currentTimeStamp = DateTime.now();
         final difference = currentTimeStamp.difference(_appLostFocusTimestamp!);
 
-        print("difference = $difference");
-        if (difference > widget._sessionConfig.invalidateSessionForAppLostFocus!) {
+        if (difference >
+            widget._sessionConfig.invalidateSessionForAppLostFocus!) {
           _appLostFocusTimestamp = null;
           widget._sessionConfig.pushAppFocusTimeout();
         }
