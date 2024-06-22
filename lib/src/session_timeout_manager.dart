@@ -34,7 +34,6 @@ class SessionTimeoutManager extends StatefulWidget {
 
 class _SessionTimeoutManagerState extends State<SessionTimeoutManager>
     with WidgetsBindingObserver {
-  Timer? _appLostFocusTimer;
   Timer? _userInactivityTimer;
   bool _isListensing = false;
   DateTime? _appLostFocusTimestamp;
@@ -84,12 +83,8 @@ class _SessionTimeoutManagerState extends State<SessionTimeoutManager>
     if (_isListensing == true &&
         (state == AppLifecycleState.inactive ||
             state == AppLifecycleState.paused)) {
-      if (widget._sessionConfig.invalidateSessionForAppLostFocus != null) {
-        _appLostFocusTimer ??= _setTimeout(
-          () => widget._sessionConfig.pushAppFocusTimeout(),
-          duration: widget._sessionConfig.invalidateSessionForAppLostFocus!,
-        );
-
+      if (widget._sessionConfig.invalidateSessionForAppLostFocus != null &&
+          _appLostFocusTimestamp == null) {
         _appLostFocusTimestamp = DateTime.now();
       }
     } else if (state == AppLifecycleState.resumed) {
@@ -97,7 +92,8 @@ class _SessionTimeoutManagerState extends State<SessionTimeoutManager>
         final currentTimeStamp = DateTime.now();
         final difference = currentTimeStamp.difference(_appLostFocusTimestamp!);
 
-        if (difference > widget._sessionConfig.invalidateSessionForAppLostFocus!) {
+        if (difference >
+            widget._sessionConfig.invalidateSessionForAppLostFocus!) {
           _appLostFocusTimestamp = null;
           widget._sessionConfig.pushAppFocusTimeout();
         }
