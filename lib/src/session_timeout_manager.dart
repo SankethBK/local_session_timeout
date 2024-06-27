@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'session_config.dart';
 
@@ -19,6 +20,7 @@ class SessionTimeoutManager extends StatefulWidget {
   /// Since updating [Timer] fir all user interactions could be expensive, user activity are recorded
   /// only after [userActivityDebounceDuration] interval, by default its 1 minute
   final Duration userActivityDebounceDuration;
+
   const SessionTimeoutManager(
       {required sessionConfig,
       required this.child,
@@ -39,6 +41,8 @@ class _SessionTimeoutManagerState extends State<SessionTimeoutManager>
   DateTime? _appLostFocusTimestamp;
 
   bool _userTapActivityRecordEnabled = true;
+
+  final FocusNode _focusNode = FocusNode();
 
   void _closeAllTimers() {
     if (_isListensing == false) {
@@ -77,6 +81,12 @@ class _SessionTimeoutManagerState extends State<SessionTimeoutManager>
   }
 
   @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
 
@@ -109,12 +119,18 @@ class _SessionTimeoutManagerState extends State<SessionTimeoutManager>
         onPointerDown: (_) {
           recordPointerEvent();
         },
-        onPointerSignal: (pointerSignal){
-          if(pointerSignal is PointerScrollEvent){
+        onPointerSignal: (pointerSignal) {
+          if (pointerSignal is PointerScrollEvent) {
             recordPointerEvent();
           }
         },
-        child: widget.child,
+        child: KeyboardListener(
+          focusNode: _focusNode,
+          onKeyEvent: (_) {
+            recordPointerEvent();
+          },
+          child: widget.child,
+        ),
       );
     }
 
