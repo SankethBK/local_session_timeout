@@ -109,6 +109,11 @@ class _SessionTimeoutManagerState extends State<SessionTimeoutManager>
         onPointerDown: (_) {
           recordPointerEvent();
         },
+        onPointerSignal: (pointerSignal){
+          if(pointerSignal is PointerScrollEvent){
+            recordPointerEvent();
+          }
+        },
         child: widget.child,
       );
     }
