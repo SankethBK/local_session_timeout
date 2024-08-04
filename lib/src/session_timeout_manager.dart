@@ -77,6 +77,12 @@ class _SessionTimeoutManagerState extends State<SessionTimeoutManager>
   }
 
   @override
+  void dispose() {
+    _closeAllTimers();
+    super.dispose();
+  }
+
+  @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
 
