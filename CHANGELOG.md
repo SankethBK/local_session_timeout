@@ -51,3 +51,7 @@
 ## 3.1.0
 
 * Fixed an issue where `appFocusTimeout` wasn't pushed because of a bug related to timer.
+
+## 3.2.0
+
+* Fixed an issue related to `_appLostFocusTimestamp`, where the timer was not resetting when app regained focus.
