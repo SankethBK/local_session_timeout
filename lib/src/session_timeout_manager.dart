@@ -77,6 +77,12 @@ class _SessionTimeoutManagerState extends State<SessionTimeoutManager>
   }
 
   @override
+  void dispose() {
+    _closeAllTimers();
+    super.dispose();
+  }
+
+  @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
 
@@ -92,9 +98,10 @@ class _SessionTimeoutManagerState extends State<SessionTimeoutManager>
         final currentTimeStamp = DateTime.now();
         final difference = currentTimeStamp.difference(_appLostFocusTimestamp!);
 
+        _appLostFocusTimestamp = null;
+
         if (difference >
             widget._sessionConfig.invalidateSessionForAppLostFocus!) {
-          _appLostFocusTimestamp = null;
           widget._sessionConfig.pushAppFocusTimeout();
         }
       }
